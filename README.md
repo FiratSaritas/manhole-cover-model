@@ -1,4 +1,4 @@
-<a href=""><img src=https://img.shields.io/badge/status-online-green" /></a>
+<a href=""><img src="https://img.shields.io/badge/status-online-green" /></a>
 
 # Manhole Cover Classifier
 
