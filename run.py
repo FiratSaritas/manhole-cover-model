@@ -1,4 +1,5 @@
 import torch
+import argparse
 from utils import MHCoverDataset, get_dataloader
 import PIL
 from PIL import Image
@@ -69,23 +70,35 @@ def image_to_tensor(URL: str):
 
 
 if __name__ == '__main__':
-    #Eingabe-Informationen
-    url= input("get url of image: ")
+    parser = argparse.ArgumentParser(description="""
+    This script is going to predict the class of an image.
+    """)
+    parser.add_argument("url", help="URL of the image")
+    parser.add_argument("top_n", help="Number of predictions")
+
+    args = parser.parse_args()
+
+    URL = args.url
+    TOP_N = args.top_n
+
     try:
-        image = image_to_tensor(url)
+        image = image_to_tensor(URL)
     except:
         print("error, could not load image, please try again")
         exit()
-    top_n = input("get number of top predictions: ")
+
     try :
-        top_n = int(top_n)
+        TOP_N = int(TOP_N)
     except ValueError:
         print("please enter a number")
         exit()
-    if top_n > 12:
+    if TOP_N > 12:
         print("please enter a number less than 13")
         exit()
-    result = model.predict_one(image,label_dict,top_n=top_n)
+    if TOP_N < 1:
+        print("please enter a number greater than 0")
+        exit()
+    result = model.predict_one(image,label_dict,top_n=TOP_N)
     with open('result.json', 'w') as fp:
         json.dump(result, fp)
     print(result)
