@@ -62,7 +62,7 @@ def image_to_tensor(URL: str):
     image = PIL.Image.open(URL)
     height, width = image.size
     image = crop_center(image, width / CROP_FACTOR, height / CROP_FACTOR)
-    image = image.resize(size=(400, 400),resample=Image.NEAREST)
+    image = image.resize(size=(400, 400),resample=Image.Resampling.NEAREST)
     image = my_test_transforms(image)
     image = image.unsqueeze(0)  
     return image
