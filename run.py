@@ -22,7 +22,7 @@ label_dict = {'Rost/Strassenrost': 0,
               'Vollguss/Handgriff geschlossen, verschraubt': 11}
 
 CROP_FACTOR = 1.3
-model = torch.load('model/model_resnet152.pth')
+model = torch.load('model/model_resnet152.pth',map_location ='cpu')
 
 
 my_test_transforms = transforms.Compose(
