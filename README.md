@@ -29,20 +29,26 @@ git clone git@github.com:FiratSaritas/manhole-cover-model.git
 
 
 3. Install required packages
+
+Preferably you create a new enviorment (conda environment is also possible).
+
 ```bash
 pip install -r requirements.txt
 pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113
 ```
 
-## Usage/Examples
+## Usage
 
 ```bash
-python run.py 
+python run.py [Url of image] [Number of top predictions]
 ```
-Inputs:
-  - Url of image
-  - Number of top predictions
-  
-Outputs:
+
+Output:
   - result.json-file in the current folder
   
+
+## Examples
+
+```bash
+python run.py image.png 3
+```
