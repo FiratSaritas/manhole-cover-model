@@ -24,13 +24,20 @@ label_dict = {'Rost/Strassenrost': 0,
 CROP_FACTOR = 1.3
 model = torch.load('model/model_resnet152.pth',map_location ='cpu')
 
-
 my_test_transforms = transforms.Compose(
     [
         transforms.Resize(224),
         transforms.ToTensor(),
     ]
 )
+
+parser = argparse.ArgumentParser(description="""
+    This script is going to predict the class of an image.
+    """)
+parser.add_argument("url", help="URL of the image")
+parser.add_argument("top_n", help="Number of predictions", nargs='?', type=int, const=1, default=1)
+
+
 
 def crop_center(pil_img, crop_width, crop_height):
     """
@@ -68,27 +75,15 @@ def image_to_tensor(URL: str):
     return image
 
 
-
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description="""
-    This script is going to predict the class of an image.
-    """)
-    parser.add_argument("url", help="URL of the image")
-    parser.add_argument("top_n", help="Number of predictions")
-
-    args = parser.parse_args()
-
-    URL = args.url
-    TOP_N = args.top_n
-
+def main(args):
     try:
-        image = image_to_tensor(URL)
+        image = image_to_tensor(args.url)
     except:
         print("error, could not load image, please try again")
         exit()
 
     try :
-        TOP_N = int(TOP_N)
+        TOP_N = int(args.top_n)
     except ValueError:
         print("please enter a number")
         exit()
@@ -102,3 +97,8 @@ if __name__ == '__main__':
     with open('result.json', 'w') as fp:
         json.dump(result, fp)
     print(result)
+
+
+if __name__ == '__main__':
+    args = parser.parse_args()
+    main(args=args)
