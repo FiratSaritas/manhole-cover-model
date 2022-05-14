@@ -56,7 +56,7 @@ python run.py --help
 ```bash
 python run.py image.png 
 ```
-or 
+or with number of top predictions:
 
 ```bash
 python run.py image.png 3
