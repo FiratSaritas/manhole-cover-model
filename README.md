@@ -39,14 +39,24 @@ pip install -r requirements.txt
 ## Usage
 
 ```bash
-python run.py [Url of image] [Number of top predictions]
+python run.py [Url of image]
 ```
 
 Output:
   - result.json-file in the current folder
   
+Additional Usage with parameter:
+
+```bash
+python run.py --help
+```
 
 ## Examples
+
+```bash
+python run.py image.png 
+```
+or 
 
 ```bash
 python run.py image.png 3
