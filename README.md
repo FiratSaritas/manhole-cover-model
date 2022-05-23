@@ -2,6 +2,11 @@
 
 # Manhole Cover Classifier
 
+![ezgif-4-b657bbd0b1](https://user-images.githubusercontent.com/82641568/169886621-3f91f6a3-67a1-49ad-af67-cbfbcc163f6d.gif)
+![ezgif-5-35c28f41eb](https://user-images.githubusercontent.com/82641568/169886608-2c9da711-92db-4796-a9d5-5bdedecb9ab8.gif)
+![ezgif-4-1abd2a1947](https://user-images.githubusercontent.com/82641568/169886629-a17029e4-c58d-4ac6-af37-b0026cf04415.gif)
+
+
 This repository predicts the class of a Manhole Cover image from 12 different classes:
   - Rost/Strassenrost
   - Vollguss/Pickelloch belueftet
