@@ -1,33 +1,18 @@
 import torch
+import pickle
 import argparse
 import PIL
 from PIL import Image
 from torchvision import transforms as transforms
 import json
-from utils.prediction.pred_interface import PredictInterface
-
-
-
-label_dict = {
-    'Rost/Strassenrost': 0,
-    'Vollguss/Pickelloch belueftet': 1,
-    'Gussbeton/Pickelloch geschlossen': 2,
-    'Vollguss/Pickelloch geschlossen': 3,
-    'Gussbeton/Pickelloch belueftet': 4,
-    'Vollguss/Handgriff geschlossen': 5,
-    'Gussbeton/Handgriff seitlich': 6,
-    'Andere/-': 7,
-    'Rost/Einlauf rund': 8,
-    'Rost/Strassenrost gewoelbt': 9,
-    'Vollguss/Aufklappbar': 10,
-    'Gussbeton/Handgriff mitte': 11,
-    'Vollguss/Handgriff geschlossen, verschraubt': 12
-}
+from utils import PredictionInterface
 
 
 CROP_FACTOR = 1.3
-model_ = torch.load('model/model.pth',map_location ='cpu')
-model = PredictInterface(model_)
+
+model_ = torch.load('./model/best_vital-star-185.pth', map_location ='cpu')
+model = PredictionInterface(model_, 'inference')
+
 my_test_transforms = transforms.Compose(
         [
             transforms.Resize(224),
@@ -40,10 +25,18 @@ my_test_transforms = transforms.Compose(
 parser = argparse.ArgumentParser(description="""
     This script is going to predict the class of an image.
     """)
-parser.add_argument("url", help="URL of the image")
-parser.add_argument("top_n", help="Number of predictions", nargs='?', type=int, const=1, default=1)
-
-
+parser.add_argument(
+    "--url", 
+    help="URL of the image"
+)
+parser.add_argument(
+    "--top_n", 
+    help="Number of predictions", 
+    nargs='?', 
+    type=int, 
+    const=1, 
+    default=1
+)
 
 def crop_center(pil_img, crop_width, crop_height):
     """
@@ -82,23 +75,24 @@ def image_to_tensor(URL: str):
 
 
 def main(args):
+    # laod pkl
+    label_dict = pickle.load(open('./utils/label_translate.pkl', 'rb'))
+    
     try:
         image = image_to_tensor(args.url)
-    except:
-        print("error, could not load image, please try again")
-        exit()
+    except KeyError as ke:
+        raise ke("error, could not load image, please try again")
 
     try :
         TOP_N = int(args.top_n)
     except ValueError:
-        print("please enter a number")
-        exit()
+        raise ValueError("please enter a number")
     if TOP_N > 12:
-        print("please enter a number less than 13")
-        exit()
+        raise ValueError("please enter a number less than 13")
     if TOP_N < 1:
-        print("please enter a number greater than 0")
-        exit()
+        raise ValueError("please enter a number greater than 0")
+        
+    
     result = model.predict_one(image,label_dict,top_n=TOP_N)
     with open('result.json', 'w') as fp:
         json.dump(result, fp)
