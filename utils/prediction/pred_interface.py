@@ -2,14 +2,14 @@ import torch
 import torch.nn.functional as F
 import pandas as pd
 
-class TrainingInterface():
+class PredictionInterface():
     """
-    This class implements the training interface for the model
+    This class implements the Prediction interface for the model
     """
     
     def __init__(self, model):
         """
-        Initializes the Training Interface
+        Initializes the Prediction Interface
 
         Params:
         -------------------
@@ -35,7 +35,7 @@ class TrainingInterface():
             y_prob:      Predicted Probability (empty if return_prob = False)
             y_images:    Images (empty if return_images = False)
         """
-        
+        self.model.eval()
         image = imag
         y_prob = []
         with torch.no_grad():

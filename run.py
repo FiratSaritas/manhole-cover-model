@@ -4,8 +4,7 @@ import PIL
 from PIL import Image
 from torchvision import transforms as transforms
 import json
-from utils.prediction.pred_interface import PredictInterface
-
+from utils.prediction.pred_interface import PredictionInterface
 
 
 label_dict = {
@@ -16,24 +15,21 @@ label_dict = {
     'Gussbeton/Pickelloch belueftet': 4,
     'Vollguss/Handgriff geschlossen': 5,
     'Gussbeton/Handgriff seitlich': 6,
-    'Andere/-': 7,
-    'Rost/Einlauf rund': 8,
-    'Rost/Strassenrost gewoelbt': 9,
-    'Vollguss/Aufklappbar': 10,
-    'Gussbeton/Handgriff mitte': 11,
-    'Vollguss/Handgriff geschlossen, verschraubt': 12
+    'Rost/Einlauf rund': 7,
+    'Rost/Strassenrost gewoelbt': 8,
+    'Vollguss/Aufklappbar': 9,
+    'Gussbeton/Handgriff mitte': 10,
+    'Vollguss/Handgriff geschlossen, verschraubt': 11
 }
 
 
 CROP_FACTOR = 1.3
 model_ = torch.load('model/model.pth',map_location ='cpu')
-model = PredictInterface(model_)
+model = PredictionInterface(model_)
 my_test_transforms = transforms.Compose(
         [
             transforms.Resize(224),
             transforms.ToTensor(),
-            transforms.Normalize(mean=[0.485, 0.456, 0.406], 
-                                 std=[0.229, 0.224, 0.225]),
         ]
     )
 
